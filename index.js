@@ -2,7 +2,7 @@ const express = require('express');
 var bodyParser = require('body-parser');
 // SQL
 const { promiseQuery, insertQuery } = require('./db/db_index');
-const { FETCH_DECKS, FETCH_DECK, ADD_DECK } = require('./db/queries');
+const { FETCH_DECKS, FETCH_DECK, ADD_DECK, ADD_CARD } = require('./db/queries');
 
 var app = express();
 
@@ -27,7 +27,15 @@ app.get('/decks/:deckname', (req, res) => {
 });
 
 app.post('/decks/:deckname', (req, res) => {
-  const { deckname } = req.params;
+  const { cardFront, cardBack, deckId } = req.body;
+
+  insertQuery(ADD_CARD({ cardFront, cardBack, deckId }))
+    .then(res => res.send('inserted card'))
+    .catch(err => res.end());
+});
+
+app.post('/decks/', (req, res) => {
+  const { deckname } = req.body;
 
   insertQuery(ADD_DECK(deckname))
     .then(deck => {

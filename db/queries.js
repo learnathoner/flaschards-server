@@ -1,7 +1,7 @@
 // Fetch decks, name, score, and cardcount
-exports.FETCH_DECKS = `SELECT d.deckname, d.score, COUNT(c.id) AS cardCount FROM decks d
+exports.FETCH_DECKS = `SELECT d.id, d.deckname, d.score, COUNT(c.id) AS cardCount FROM decks d
 LEFT JOIN cards c ON d.id = c.deck_id
-GROUP BY d.deckname, d.score;`;
+GROUP BY d.id, d.deckname, d.score;`;
 
 // Fetch cards in each deck
 exports.FETCH_DECK = deckName => {
@@ -10,7 +10,13 @@ exports.FETCH_DECK = deckName => {
 	WHERE d.deckname = '${deckName}';`;
 };
 
+// Add Deck
 exports.ADD_DECK = deckName => `
 	INSERT INTO decks(deckname, score)
 		VALUES('${deckName}', 0) 
+`;
+
+exports.ADD_CARD = ({ cardFront, cardBack, deckId }) => `
+	INSERT INTO cards(card_front, card_back, deck_id)
+		VALUES('${cardFront}', '${cardBack}', ${deckId}) 
 `;
