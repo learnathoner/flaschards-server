@@ -14,9 +14,10 @@ const sequelize = new Sequelize(host);
 sequelize
   .authenticate()
   .then(() => console.log('connection made'))
-  .catch(() => console.log('cannot connect'))
+  .catch(() => console.log('cannot connect'));
 
-exports.promiseQuery = (query) => sequelize.query(query, { type: sequelize.QueryTypes.SELECT});
-
+exports.promiseQuery = query =>
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+exports.insertQuery = query => sequelize.query(query);
 
 exports.MODE_PRODUCTION = 'mode_production';
