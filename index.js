@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
     .catch(err => res.end());
 });
 
+// Return cards by deckName
 app.get('/decks/:deckname', (req, res) => {
   const { deckname } = req.params;
 
@@ -26,6 +27,7 @@ app.get('/decks/:deckname', (req, res) => {
     .catch(err => res.end());
 });
 
+// Add card to deck
 app.post('/decks/:deckname', (req, res) => {
   const { cardFront, cardBack, deckId } = req.body;
 
@@ -34,6 +36,7 @@ app.post('/decks/:deckname', (req, res) => {
     .catch(err => res.end());
 });
 
+// Add new deck
 app.post('/decks/', (req, res) => {
   const { deckname } = req.body;
 
