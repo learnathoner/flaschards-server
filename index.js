@@ -1,8 +1,14 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 // SQL
-const { promiseQuery, insertQuery } = require('./db/db_index');
-const { FETCH_DECKS, FETCH_DECK, ADD_DECK, ADD_CARD } = require('./db/queries');
+const { promiseQuery, insertQuery, updateQuery } = require('./db/db_index');
+const {
+  FETCH_DECKS,
+  FETCH_DECK,
+  ADD_DECK,
+  ADD_CARD,
+  UPDATE_SCORE
+} = require('./db/queries');
 
 var app = express();
 
@@ -33,6 +39,15 @@ app.post('/decks/:deckname', (req, res) => {
 
   insertQuery(ADD_CARD({ cardFront, cardBack, deckId }))
     .then(res => res.send('inserted card'))
+    .catch(err => res.end());
+});
+
+// Update deck score
+app.put('/decks/:deckname', (req, res) => {
+  const { deckId, score } = req.body;
+
+  updateQuery(UPDATE_SCORE({ deckId, score }))
+    .then(updated => res.send(updated))
     .catch(err => res.end());
 });
 

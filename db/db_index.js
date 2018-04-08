@@ -18,6 +18,10 @@ sequelize
 
 exports.promiseQuery = query =>
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+
 exports.insertQuery = query => sequelize.query(query);
+
+exports.updateQuery = query =>
+  sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });
 
 exports.MODE_PRODUCTION = 'mode_production';

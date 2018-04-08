@@ -16,7 +16,13 @@ exports.ADD_DECK = deckName => `
 		VALUES('${deckName}', 0) 
 `;
 
+// Add Card to DeckID
 exports.ADD_CARD = ({ cardFront, cardBack, deckId }) => `
 	INSERT INTO cards(card_front, card_back, deck_id)
 		VALUES('${cardFront}', '${cardBack}', ${deckId}) 
+`;
+
+// Update Deck Quiz score
+exports.UPDATE_SCORE = ({ deckId, score }) => `
+	UPDATE decks SET score = '${score}' where id = '${deckId}'
 `;
