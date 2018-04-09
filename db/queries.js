@@ -1,10 +1,13 @@
 // Fetch decks, name, score, and cardcount
-exports.FETCH_DECKS = `SELECT d.id, d.deckname, d.score, COUNT(c.id) AS cardCount FROM decks d
-LEFT JOIN cards c ON d.id = c.deck_id
-GROUP BY d.id, d.deckname, d.score;`;
+exports.FETCH_DECKS = `SELECT d.id, d.deckname, d.score, c.id AS card_id FROM decks d
+LEFT JOIN cards c ON d.id = c.deck_id`;
+
+// Fetch Deck
+exports.FETCH_DECK = deckname =>
+  `SELECT * FROM decks d WHERE d.deckname = '${deckname}'`;
 
 // Fetch cards in each deck
-exports.FETCH_DECK = deckName => {
+exports.FETCH_DECK_CARDS = deckName => {
   return `SELECT * FROM cards c 
 	INNER JOIN decks d ON c.deck_id = d.id
 	WHERE d.deckname = '${deckName}';`;
@@ -23,6 +26,6 @@ exports.ADD_CARD = ({ cardFront, cardBack, deckId }) => `
 `;
 
 // Update Deck Quiz score
-exports.UPDATE_SCORE = ({ deckId, score }) => `
-	UPDATE decks SET score = '${score}' where id = '${deckId}'
+exports.UPDATE_SCORE = ({ id, score }) => `
+	UPDATE decks SET score = '${score}' where id = '${id}'
 `;

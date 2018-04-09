@@ -5,6 +5,7 @@ const { promiseQuery, insertQuery, updateQuery } = require('./db/db_index');
 const {
   FETCH_DECKS,
   FETCH_DECK,
+  FETCH_DECK_CARDS,
   ADD_DECK,
   ADD_CARD,
   UPDATE_SCORE
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 app.get('/decks/:deckname', (req, res) => {
   const { deckname } = req.params;
 
-  promiseQuery(FETCH_DECK(deckname))
+  promiseQuery(FETCH_DECK_CARDS(deckname))
     .then(deck => res.json(deck))
     .catch(err => res.end());
 });
@@ -44,9 +45,9 @@ app.post('/decks/:deckname', (req, res) => {
 
 // Update deck score
 app.put('/decks/:deckname', (req, res) => {
-  const { deckId, score } = req.body;
+  const { id, score } = req.body;
 
-  updateQuery(UPDATE_SCORE({ deckId, score }))
+  updateQuery(UPDATE_SCORE({ id, score }))
     .then(updated => res.send(updated))
     .catch(err => res.end());
 });
@@ -54,11 +55,11 @@ app.put('/decks/:deckname', (req, res) => {
 // Add new deck
 app.post('/decks/', (req, res) => {
   const { deckname } = req.body;
+  console.log(req.body);
 
   insertQuery(ADD_DECK(deckname))
-    .then(deck => {
-      console.log(`deck has been inserted, ${deck}`);
-      res.send('successfully inserted');
+    .then(() => {
+      promiseQuery(FETCH_DECK(deckname)).then(deck => res.send(deck));
     })
     .catch(err => res.end());
 });
