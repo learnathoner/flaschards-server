@@ -8,7 +8,7 @@ exports.FETCH_DECK = deckname =>
 
 // Fetch cards in each deck
 exports.FETCH_DECK_CARDS = deckName => {
-  return `SELECT * FROM cards c 
+  return `SELECT c.id, c.card_front, c.card_back, d.id AS deck_id FROM cards c 
 	INNER JOIN decks d ON c.deck_id = d.id
 	WHERE d.deckname = '${deckName}';`;
 };

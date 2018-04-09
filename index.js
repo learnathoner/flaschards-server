@@ -30,7 +30,10 @@ app.get('/decks/:deckname', (req, res) => {
   const { deckname } = req.params;
 
   promiseQuery(FETCH_DECK_CARDS(deckname))
-    .then(deck => res.json(deck))
+    .then(deck => {
+      console.log(deck);
+      res.json(deck);
+    })
     .catch(err => res.end());
 });
 
