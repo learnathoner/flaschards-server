@@ -15,14 +15,16 @@ exports.FETCH_DECK_CARDS = deckName => {
 
 // Add Deck
 exports.ADD_DECK = deckName => `
-	INSERT INTO decks(deckname, score)
-		VALUES('${deckName}', 0) 
+	INSERT INTO decks(id, deckname, score)
+		VALUES(DEFAULT, '${deckName}', 0)
+		RETURNING *
 `;
 
 // Add Card to DeckID
 exports.ADD_CARD = ({ cardFront, cardBack, deckId }) => `
-	INSERT INTO cards(card_front, card_back, deck_id)
-		VALUES('${cardFront}', '${cardBack}', ${deckId}) 
+	INSERT INTO cards(id, card_front, card_back, deck_id)
+		VALUES(DEFAULT, '${cardFront}', '${cardBack}', ${deckId}) 
+		RETURNING *
 `;
 
 // Update Deck Quiz score

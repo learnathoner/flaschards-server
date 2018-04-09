@@ -19,7 +19,7 @@ sequelize
 exports.promiseQuery = query =>
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
 
-exports.insertQuery = query => sequelize.query(query);
+exports.insertQuery = query => sequelize.query(query, { returning: true });
 
 exports.updateQuery = query =>
   sequelize.query(query, { type: sequelize.QueryTypes.UPDATE });

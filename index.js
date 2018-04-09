@@ -39,7 +39,11 @@ app.post('/decks/:deckname', (req, res) => {
   const { cardFront, cardBack, deckId } = req.body;
 
   insertQuery(ADD_CARD({ cardFront, cardBack, deckId }))
-    .then(res => res.send('inserted card'))
+    .then(insertRes => {
+      const newCard = insertRes[0][0];
+
+      res.json(newCard);
+    })
     .catch(err => res.end());
 });
 
@@ -58,8 +62,12 @@ app.post('/decks/', (req, res) => {
   console.log(req.body);
 
   insertQuery(ADD_DECK(deckname))
-    .then(() => {
-      promiseQuery(FETCH_DECK(deckname)).then(deck => res.send(deck));
+    .then(insertRes => {
+      console.log(insertRes);
+      const newDeck = insertRes[0][0];
+
+      res.json(newDeck);
+      // promiseQuery(FETCH_DECK(deckname)).then(deck => res.send(deck));
     })
     .catch(err => res.end());
 });
